@@ -1,0 +1,60 @@
+- ros_topic_name: "/kamera/goruntu"
+  gz_topic_name: "/kamera/goruntu"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/kamera/goruntu/camera_info"
+  gz_topic_name: "/kamera/goruntu/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/keyboard/keypress"
+  gz_topic_name: "/keyboard/keypress"
+  ros_type_name: "std_msgs/msg/Int32"
+  gz_type_name: "gz.msgs.Int32"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/kule_cmd_vel"
+  gz_topic_name: "/model/hareketli_kamera_sistemi/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/kule_yaw_cmd"
+  gz_topic_name: "/model/hareketli_kamera_sistemi/joint/yaw_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/kule_tilt_cmd"
+  gz_topic_name: "/model/hareketli_kamera_sistemi/joint/tilt_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/tf"
+  gz_topic_name: "/model/hareketli_kamera_sistemi/pose"
+  ros_type_name: "tf2_msgs/msg/TFMessage"
+  gz_type_name: "gz.msgs.Pose_V"
+  direction: GZ_TO_ROS
+
+
+- ros_topic_name: "/kamera/goruntu_2x"
+  gz_topic_name: "/kamera/goruntu_2x"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/kamera/goruntu_4x"
+  gz_topic_name: "/kamera/goruntu_4x"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/kamera/goruntu_8x"
+  gz_topic_name: "/kamera/goruntu_8x"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
