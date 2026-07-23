@@ -1,0 +1,218 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="gimbal_kamera_kulesi">
+    <!-- Bu model kendi kendine yeterli: dunyaya sadece <include> ile eklenir.
+         ARTIK WORLD'E SABIT DEGIL - WASD ile /model/<isim>/cmd_vel uzerinden
+         serbestce hareket ettirilebilir (asagidaki VelocityControl + TriggeredPublisher
+         pluginlerine bakin). -->
+    <link name="sabit_tavan">
+      <!-- Artik world'e sabit degil: VelocityControl ile WASD kontrolu bu linki hareket ettirir.
+           Yer cekiminden etkilenmemesi icin gravity kapali (asagi dusmesin diye). -->
+      <gravity>false</gravity>
+      <inertial>
+        <mass>1000.0</mass>
+        <inertia>
+          <ixx>100.0</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>100.0</iyy><iyz>0</iyz><izz>100.0</izz>
+        </inertia>
+      </inertial>
+      <visual name="govde_viz">
+        <geometry>
+          <box>
+            <size>0.15 0.15 0.05</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="govde_col">
+        <geometry>
+          <box>
+            <size>0.15 0.15 0.05</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name='base_link'>
+      <pose>0 0 -0.1 0 0 0</pose>
+      <gravity>false</gravity>
+      <inertial>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.01</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.01</iyy><iyz>0</iyz><izz>0.01</izz>
+        </inertia>
+      </inertial>
+
+      <visual name='base_main_viz'>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://gimbal_small_2d/meshes/base_main.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/FlatBlack</name>
+          </script>
+        </material>
+      </visual>
+
+      <visual name='base_arm_viz'>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://gimbal_small_2d/meshes/base_arm.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/FlatBlack</name>
+          </script>
+        </material>
+      </visual>
+
+      <collision name='base_col'>
+        <pose>0.01 0.075 -0.025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.05 0.15</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="yaw_joint" type="revolute">
+      <parent>sabit_tavan</parent>
+      <child>base_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415</lower>
+          <upper>3.1415</upper>
+        </limit>
+        <dynamics>
+          <damping>0.8</damping>
+          <friction>0.2</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <link name='tilt_link'>
+      <pose>0 0 -0.08 0 0 0</pose>
+      <gravity>false</gravity>
+      <inertial>
+        <mass>0.3</mass>
+        <inertia>
+          <ixx>0.005</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.005</iyy><iyz>0</iyz><izz>0.005</izz>
+        </inertia>
+      </inertial>
+
+      <visual name='tilt_viz'>
+        <pose>0 0 -0.005 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://gimbal_small_2d/meshes/tilt.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+
+      <collision name='tilt_col'>
+        <pose>0 0 -0.005 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://gimbal_small_2d/meshes/tilt.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- LENS (mono_cam): merge="true" ile bu modelin icine dogrudan kaynatiliyor.
+         mono_cam/model.sdf'te ne degisirse burada da otomatik yansir,
+         ayri bir kopya tutulmuyor. -->
+    <include merge="true">
+      <uri>model://mono_cam</uri>
+      <name>mono_cam</name>
+      <pose relative_to="tilt_link">0 0 0.02 -1.5708 -1.5708 0</pose>
+    </include>
+
+    <joint name="mono_cam_sabitleme" type="fixed">
+      <parent>tilt_link</parent>
+      <child>mono_cam/base_link</child>
+    </joint>
+
+    <joint name='tilt_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>tilt_link</child>
+      <pose>0 0 0.02 0 0 0</pose>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.1</lower>
+          <upper>3.1415</upper>
+          <effort>10</effort>
+          <velocity>5.0</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.8</damping>
+          <friction>0.2</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>yaw_joint</joint_name>
+      <p_gain>5.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.5</d_gain>
+    </plugin>
+
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>tilt_joint</joint_name>
+      <p_gain>5.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.5</d_gain>
+    </plugin>
+
+    <!-- ================== WASD ile hareket ================== -->
+    <!-- Modelin canonical (ilk) linki olan sabit_tavan'in hizini
+         /model/<spawn_adi>/cmd_vel topic'inden okur. -->
+    <plugin filename="gz-sim-velocity-control-system" name="gz::sim::systems::VelocityControl">
+      <link_name>sabit_tavan</link_name>
+    </plugin>
+
+    <!-- ================== RViz2 / TF icin ================== -->
+    <!-- Her linkin (sabit_tavan, base_link, tilt_link, mono_cam/base_link)
+         dunyaya gore pozisyonunu Pose_V mesaji olarak yayinlar. Bunu
+         ros_gz_bridge ile tf2_msgs/TFMessage'a cevirip RViz2'de
+         gercek bir TF agaci olarak gorebilirsiniz. -->
+    <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+      <publish_link_pose>true</publish_link_pose>
+      <publish_sensor_pose>false</publish_sensor_pose>
+      <publish_collision_pose>false</publish_collision_pose>
+      <publish_visual_pose>false</publish_visual_pose>
+      <publish_nested_model_pose>true</publish_nested_model_pose>
+      <use_pose_vector_msg>true</use_pose_vector_msg>
+      <static_publisher>true</static_publisher>
+      <static_update_frequency>30</static_update_frequency>
+      <topic>/model/hareketli_kamera_sistemi/pose</topic>
+    </plugin>
+
+  </model>
+</sdf>
