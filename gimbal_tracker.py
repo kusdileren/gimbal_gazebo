@@ -4,14 +4,18 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Float64
 from cv_bridge import CvBridge
 import cv2
+from std_msgs.msg import Int32 # Dosyanın en üstüne import et
+
 
 class GimbalTrackerNode(Node):
     def __init__(self):
         super().__init__('gimbal_tracker_node')
         
         self.bridge = CvBridge()
-        
-        
+
+
+        # __init__ içerisine eklenecek:
+        self.zoom_pub = self.create_publisher(Float64, '/kamera/zoom_cmd', 10)
         self.yaw_pub = self.create_publisher(Float64, '/kule_yaw_cmd', 10)
         self.tilt_pub = self.create_publisher(Float64, '/kule_tilt_cmd', 10)
         
@@ -31,6 +35,8 @@ class GimbalTrackerNode(Node):
         
         self.kp_yaw = 0.0003
         self.kp_tilt = 0.0003
+
+        self.current_zoom = 1.0
         
         self.drawing = False
         self.roi_start = (0, 0)
@@ -78,8 +84,20 @@ class GimbalTrackerNode(Node):
             self.selection_ready = True # yeni hedef belirlendi durumunu saglar.
 
     #her yeni kare icin sisteme dosyalar yuklenir ve o yesil alanda tanir.
+    def apply_digital_zoom(self, frame, zoom):
+        if zoom <= 1.0:
+            return frame
+        h, w = frame.shape[:2]
+        new_w = max(1, int(w / zoom))
+        new_h = max(1, int(h / zoom))
+        x0 = (w - new_w) // 2
+        y0 = (h - new_h) // 2
+        cropped = frame[y0:y0 + new_h, x0:x0 + new_w]
+        return cv2.resize(cropped, (w, h), interpolation=cv2.INTER_LINEAR)
+
     def image_callback(self, msg):
         frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8') 
+        frame = self.apply_digital_zoom(frame, self.current_zoom)
         #dikdortgene alinan her frame anlamlandirilarak  islemler onun uzerinden gider.
         
         if self.selection_ready:
@@ -154,11 +172,31 @@ class GimbalTrackerNode(Node):
                 cv2.putText(frame, "Farenizle hedefi secin", (20, 30), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
             
+        cv2.putText(frame, f"Zoom: {self.current_zoom:.0f}x", (20, 90),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 200, 255), 2)
+
         cv2.imshow(self.window_name, frame)
-        
+
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             rclpy.shutdown()
+        elif key == ord('1'):
+            self.set_zoom(1.0)
+        elif key == ord('2'):
+            self.set_zoom(2.0)
+        elif key == ord('3'):
+            self.set_zoom(4.0)
+        elif key == ord('+') or key == ord('='):
+            self.set_zoom(self.current_zoom + 0.5)
+        elif key == ord('-'):
+            self.set_zoom(max(1.0, self.current_zoom - 0.5))
+
+    def set_zoom(self, value):
+        self.current_zoom = value
+        msg = Float64()
+        msg.data = self.current_zoom
+        self.zoom_pub.publish(msg)
+        self.get_logger().info(f"Zoom -> {self.current_zoom}x")
 
 def main(args=None):
     rclpy.init(args=args)
