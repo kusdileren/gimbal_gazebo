@@ -40,21 +40,9 @@
   gz_type_name: "gz.msgs.Pose_V"
   direction: GZ_TO_ROS
 
-
-- ros_topic_name: "/kamera/goruntu_2x"
-  gz_topic_name: "/kamera/goruntu_2x"
-  ros_type_name: "sensor_msgs/msg/Image"
-  gz_type_name: "gz.msgs.Image"
-  direction: GZ_TO_ROS
-
-- ros_topic_name: "/kamera/goruntu_4x"
-  gz_topic_name: "/kamera/goruntu_4x"
-  ros_type_name: "sensor_msgs/msg/Image"
-  gz_type_name: "gz.msgs.Image"
-  direction: GZ_TO_ROS
-
-- ros_topic_name: "/kamera/goruntu_8x"
-  gz_topic_name: "/kamera/goruntu_8x"
-  ros_type_name: "sensor_msgs/msg/Image"
-  gz_type_name: "gz.msgs.Image"
-  direction: GZ_TO_ROS
+# ZOOM icin eklendi: ROS -> Gazebo, ZoomController plugini bu topic'i dinliyor
+- ros_topic_name: "/kamera/zoom_cmd"
+  gz_topic_name: "/kamera/zoom_cmd"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
