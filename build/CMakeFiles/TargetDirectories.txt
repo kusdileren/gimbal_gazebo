@@ -1,0 +1,7 @@
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/ZoomControllerCpp.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/edit_cache.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/rebuild_cache.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/list_install_components.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/install.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/install/local.dir
+/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/build/CMakeFiles/install/strip.dir
