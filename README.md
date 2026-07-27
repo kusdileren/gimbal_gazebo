@@ -15,8 +15,7 @@ export GZ_SIM_SYSTEM_PLUGIN_PATH=/home/eren-ku-dil/Belgeler/c++_zoom_deneme/modu
 export GZ_SIM_RESOURCE_PATH=/home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/models:$GZ_SIM_RESOURCE_PATH
 
 # 4. Simülasyonu çalıştır
-gz sim kasaba_binali.sdf
-
+gz sim kasaba_binali.sdf -v 4
 Terminal 2:
 
 # 1. ROS 2 Lyrical ortamını aktif et
