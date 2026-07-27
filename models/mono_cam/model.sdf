@@ -47,14 +47,7 @@
           <emissive>0 0 0 1</emissive>
         </material>
       </visual>
-      <!-- Python Eklentisini Yükleyen Sistem -->
-      <plugin filename="gz-sim-python-system-loader-system" name="gz::sim::systems::PythonSystemLoader">
-        <module_name>zoom_controller</module_name>
-        <base_fov>1.74</base_fov>
-        <zoom_topic>/kamera/zoom_cmd</zoom_topic>
-      </plugin>
-      
-      <sensor name="imager" type="camera">
+            <sensor name="imager" type="camera">
         <pose>0 0 0 0 0 0</pose>
         <camera>
           <horizontal_fov>1.74</horizontal_fov>
@@ -77,5 +70,13 @@
       <gravity>false</gravity>
       <velocity_decay/>
     </link>
+    <!-- filename="ZoomControllerCpp" olarak değiştirildi -->
+    <plugin 
+      filename="ZoomControllerCpp" 
+      name="zoom_controller::ZoomController">
+      <base_fov>1.74</base_fov>
+      <camera_name>imager</camera_name>
+      <zoom_topic>/kamera/zoom_cmd</zoom_topic>
+    </plugin>
   </model>
 </sdf>
