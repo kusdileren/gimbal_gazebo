@@ -225,22 +225,23 @@
     <include>
       <uri>model://gimbal_kamera_kulesi</uri>
       <name>hareketli_kamera_sistemi</name>
-      <pose>229.6000 191.4400 45 0 0 1.5708</pose>
+      <pose>229.6000 191.4400 35 0 0 1.5708</pose>
     </include>
-    <model name='parking_garage'>
+    
+<model name='parking_garage'>
       <static>true</static>
       <link name='link'>
         <collision name='collision'>
           <geometry>
             <mesh>
-              <uri>model://parking_garage_mesh/meshes/parking_garage.dae</uri>
+              <uri>file:///home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/models/parking_garage_mesh/meshes/parking_garage.dae</uri>
             </mesh>
           </geometry>
         </collision>
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://parking_garage_mesh/meshes/parking_garage.dae</uri>
+              <uri>file:///home/eren-ku-dil/Belgeler/c++_zoom_deneme/moduler_gimbal_projesi/models/parking_garage_mesh/meshes/parking_garage.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -259,7 +260,7 @@
         </inertial>
         <enable_wind>false</enable_wind>
       </link>
-      <pose>159.994 232.11500000000001 0 0 0 0</pose>
+      <pose>159.99400329589844 239.10977172851562 0 0 0 0</pose>
       <self_collide>false</self_collide>
     </model>
     <model name='post_office'>
