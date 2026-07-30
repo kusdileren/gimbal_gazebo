@@ -10,7 +10,7 @@ TOPIC_YAW_CMD = '/kule_yaw_cmd'
 TOPIC_TILT_CMD = '/kule_tilt_cmd'
 
 # ---- YOLO ayarlari ----
-YOLO_MODEL_PATH = 'yolo11s.pt'
+YOLO_MODEL_PATH = 'yolo11n.pt'
 YOLO_CONF_THRESHOLD = 0.15
 YOLO_IMG_SIZE = 1280
 # COCO sinif id'leri: 2=car, 4=airplane, 5=bus, 7=truck
@@ -23,6 +23,10 @@ BASLANGIC_TILT = 2.5
 # ---- Otomatik takip PID kazanclari ----
 KP_YAW = 0.0003
 KP_TILT = 0.0003
+
+KFF_TILT = 0.05  # Kalman filtreleme katsayisi (0-1 arasi) - tilt icin
+KFF_YAW = 0.05   # Kalman filtreleme katsayisi (0-1 arasi) - yaw icin
+MAX_RATE_DEG_S = 60
 
 # ---- Tilt fiziksel sinirlari ----
 # Not: yaw_joint artik surekli/limitsiz (continuous) oldugu icin yaw'a
@@ -37,8 +41,21 @@ MANUEL_HASSASIYET = 0.002
 ZOOM_ADIMI = 0.5
 ZOOM_MIN = 1.0
 
+# ---- Otomatik takip PID kazanclari ---- #yeni eklendi
+KP_YAW = 0.0003
+KI_YAW = 0.00001
+KD_YAW = 0.00005  # Frenleme etkisi, overshoot'u engelleyecek ana katsayı
+
+KP_TILT = 0.0003
+KI_TILT = 0.00001
+KD_TILT = 0.00005
+
+# İntegral yığılmasını (windup) önlemek için sınır
+PID_INTEGRAL_MAX = 5000.0
+
 # ---- Hedef "cok yakin" uyarisi esigi ----
 # Kutu genisligi/yuksekligi, ekranin bu orandan fazlasini kapladiginda uyar
 COK_YAKIN_ESIK = 0.9
 
 WINDOW_NAME = "Gimbal Kamera Takip Arayuzu"
+
