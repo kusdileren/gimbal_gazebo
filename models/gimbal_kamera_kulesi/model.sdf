@@ -16,19 +16,6 @@
           <iyy>100.0</iyy><iyz>0</iyz><izz>100.0</izz>
         </inertia>
       </inertial>
-      <visual name="govde_viz">
-        <geometry>
-          <box>
-            <size>0.15 0.15 0.05</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/DarkGrey</name>
-          </script>
-        </material>
-      </visual>
       <collision name="govde_col">
         <geometry>
           <box>
